@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pavle Milaković — Portfolio</title>
+
+<!-- Cambria (sistem, serif fallback) -->
+<style>
+  :root{
+    --bg:#fff; --fg:#111; --muted:#666; --line:#111; --overlay:rgba(0,0,0,.35);
+    --max:1100px;
+  }
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:Cambria, "Times New Roman", serif;}
+  *{box-sizing:border-box}
+
+  /* Header */
+  header{
+    position:fixed; inset:0 0 auto 0; height:64px; display:flex; align-items:center; justify-content:space-between;
+    padding:0 16px; border-bottom:1px solid var(--line); background:var(--bg); z-index:10;
+  }
+
+  .logo-small .mark {
+width:40px;
+height:40px;
+background-image:url('logo.jpg');
+background-position:center;
+background-size:contain;
+background-repeat:no-repeat;
+border:none;
+display:inline-block;
+margin-right:8px;
+vertical-align:middle;
+}
+.logo-small {
+display: flex; /* postavlja logo i ime u red */
+align-items: center; /* vertikalno poravnava */
+gap: 2px; /* razmak između loga i imena */
+font-weight: 700; /* bold ime */
+letter-spacing: .5px; /* blago razmaknuta slova */
+}
+
+  .hamburger{width:30px; height:22px; position:relative; border:none; background:none; cursor:pointer}
+  .hamburger span, .hamburger::before, .hamburger::after{
+    content:""; position:absolute; left:0; right:0; height:2px; background:var(--fg); transition:.25s;
+  }
+  .hamburger span{top:10px}
+  .hamburger::before{top:0}
+  .hamburger::after{bottom:0}
+  .hamburger.active span{opacity:0}
+  .hamburger.active::before{transform:translateY(10px) rotate(45deg)}
+  .hamburger.active::after{transform:translateY(-10px) rotate(-45deg)}
+
+  /* Centralni hero logo */
+  .hero{
+    min-height:70vh; display:grid; place-items:center; padding-top:64px;
+  }
+  .logo-big{
+    width:min(60vw, 420px); height:min(60vw, 420px);
+    background-image:url('logo.jpg'); center/contain no-repeat; /* */ 
+    border: none;
+  }
+
+  /* Dropdown meni */
+  .menu{
+    position:absolute; top:64px; right:16px; width:220px; background:var(--bg); border:1px solid var(--line);
+    box-shadow:0 10px 24px rgba(0,0,0,.08); display:none; z-index:12;
+  }
+  .menu.open{display:block}
+  .menu a{display:block; padding:12px 14px; color:var(--fg); text-decoration:none; border-bottom:1px solid #eee}
+  .menu a:last-child{border-bottom:none}
+  .menu a:hover{background:#f7f7f7}
+
+  main{max-width:var(--max); margin:0 auto; padding:16px}
+
+  /* Published in */
+  .press{margin:24px auto 40px; display:flex; gap:14px; flex-wrap:wrap; align-items:center; justify-content:center; color:var(--muted); font-size:15px}
+  .press a{color:var(--fg); text-decoration:underline}
+
+  /* Kategorije lista (overlay naslov + pozadinska fotka) */
+  .categories{display:grid; grid-template-columns:repeat(2,minmax(260px,1fr)); gap:16px; margin:32px auto}
+  .cat{
+    position:relative; height:180px; border:1px solid var(--line); overflow:hidden; cursor:pointer;
+    background:#ddd center/cover no-repeat; /* zameni pojedinačne background-image u HTML-u data-bg atributom */
+  }
+  .cat::after{
+    content:attr(data-title); position:absolute; left:0; right:0; bottom:0;
+    padding:14px 16px; background:var(--overlay); color:#fff; font-size:20px;
+  }
+
+  /* Grid radova */
+  .grid{display:none; grid-template-columns:repeat(5, minmax(140px,1fr)); gap:12px; margin:12px 0 28px}
+  .grid.open{display:grid}
+  .work{
+    aspect-ratio:3/4; background:#eee center/cover no-repeat; border:1px solid var(--line);
+  }
+
+  /* Contact kartica */
+  .contact{display:none; border:1px solid var(--line); padding:18px; max-width:420px; margin:24px auto}
+  .contact.open{display:block}
+  .contact h3{margin:0 0 10px}
+  .contact a{color:var(--fg)}
+  .contact .row{margin:8px 0}
+
+  /* footer */
+  footer{padding:36px 16px 56px; text-align:center; color:var(--muted)}
+ @media (max-width:720px) {
+  .categories {
+    grid-template-columns:1fr;
+  }
+  .grid {
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  /* SMANJENJE LOGA ZA TELEFONE */
+  .logo-big {
+    width: 45vw;
+    height: 45vw;
+    background-size: contain;
+  }
+
+  .logo-small .mark {
+    width: 22px;
+    height: 22px;
+  }
+
+  header {
+    height: 56px;
+    padding: 0 12px;
+  }
+
+  .logo-small {
+    font-size: 15px;
+    gap: 6px;
+  }
+}</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-small">
+    <div class="mark"></div>
+    <div>Pavle Milaković</div>
+  </div>
+  <button class="hamburger" id="btnMenu" aria-label="Menu"><span></span></button>
+  <nav class="menu" id="menu">
+    <a href="#" data-action="portfolio">Portfolio</a>
+    <a href="#" data-action="contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="logo-big" title="Your big logo"></div>
+</section>
+
+<main>
+  <!-- Published in -->
+  <div class="press">
+    Published in:
+    <a href="https://www.harpersbazaar.rs/moda/modni-spektakl-nase-sutra?fbclid=PAZnRzaANrSUlleHRuA2FlbQIxMQABp2RPnLgNOCzNEvEdyUtunVdU64U9iW-eUCsOstXoLXkBzHZqYzp2qQ6PmO6R_aem_-y3U97moauK3o9kqAkpI4w"
+     target="_blank" rel="noopener">Harper’s Bazaar</a> ·
+  <a href="https://www.grazia.rs/moda/vesti/belgrade-fashion-week-je-poceo?fbclid=PAZnRzaANrSdxleHRuA2FlbQIxMQABpyDMnb5_CRfAfBiszdiV1sSGN3Aya282DbbKU050CG4xFIQSgzJamdsENJun_aem_l-X9JqvK2pON1HQchbbPgw"
+     target="_blank" rel="noopener">Grazia</a>
+</div>
+
+  <!-- PORTFOLIO: lista kategorija -->
+  <section id="portfolioList" style="display:none">
+    <div class="categories">
+      <div class="cat" data-target="g-photography" data-title="photography" style="background-image:url('fotografija2.jpg')"></div>
+      <div class="cat" data-target="g-party" data-title="party photography" style="background-image:url('fotografija7.jpg')"></div>
+      <div class="cat" data-target="g-graphic" data-title="graphic design & product design" style="background-image:url('fotografija8.jpg')"></div>
+      <div class="cat" data-target="g-interior" data-title="interior design" style="background-image:url('fotografija9.jpg')"></div>
+    </div>
+
+    <!-- GRID: po 5 radova u svakoj kategoriji -->
+    <div id="g-photography" class="grid">
+      <div class="work" style="background-image:url('fotografija1.jpg')"></div>
+      <div class="work" style="background-image:url('fotografija3.jpg')"></div>
+      <div class="work" style="background-image:url('fotografija5.jpg')"></div>
+      <div class="work" style="background-image:url('fotografija4.jpg')"></div>
+      <div class="work" style="background-image:url('fotografija6.jpg')"></div>
+    </div>
+
+    <div id="g-party" class="grid">
+      <div class="work" style="background-image:url('fotografija20.jpg')"></div>
+      <div class="work" style="background-image:url('fotografija21.jpg')"></div>
+      <div class="work" style="background-image:url('fotografija19.jpg')"></div>
+      <div class="work" style="background-image:url('fotografija22.jpg')"></div>
+      <div class="work" style="background-image:url('fotografija23.jpg')"></div>
+    </div>
+
+    <div id="g-graphic" class="grid">
+      <div class="work" style="background-image:url('fotografija16.jpg')"></div>
+      <div class="work" style="background-image:url('fotografija8.jpg')"></div>
+      <div class="work" style="background-image:url('fotografija15.jpg')"></div>
+      <div class="work" style="background-image:url('fotografija17.jpg')"></div>
+      <div class="work" style="background-image:url('fotografija18.jpg')"></div>
+    </div>
+
+    <div id="g-interior" class="grid">
+      <div class="work" style="background-image:url('fotografija10.jpg')"></div>
+      <div class="work" style="background-image:url('fotografija11.jpg')"></div>
+      <div class="work" style="background-image:url('fotografija12.jpg')"></div>
+      <div class="work" style="background-image:url('fotografija13.jpg')"></div>
+      <div class="work" style="background-image:url('fotografija14.jpg')"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contactCard" class="contact">
+    <h3>Contact</h3>
+    <div class="row"><strong>E-mail:</strong><br>
+      <a href="mailto:milakovicpavle3@gmail.com">milakovicpavle3@gmail.com</a>
+    </div>
+    <div class="row"><strong>Instagram:</strong><br>
+      <a href="https://www.instagram.com/pavlemilakovic/" target="_blank" rel="noopener">@pavlemilakovic</a>
+    </div>
+    <div class="row"><strong>Behance:</strong><br>
+      <a href="https://www.behance.net/pavlemilakovic" target="_blank" rel="noopener">behance.net/pavlemilakovic</a>
+    </div>
+  </section>
+</main>
+
+<footer>© <span id="y"></span> Pavle Milaković — All rights reserved.</footer>
+
+<script>
+  // godine u footeru
+  document.getElementById('y').textContent = new Date().getFullYear();
+
+  const btn = document.getElementById('btnMenu');
+  const menu = document.getElementById('menu');
+  const portfolioList = document.getElementById('portfolioList');
+  const contactCard = document.getElementById('contactCard');
+
+  // otvori/zatvori dropdown
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('active');
+    menu.classList.toggle('open');
+  });
+
+  // klik na Portfolio / Contact
+  menu.addEventListener('click', (e)=>{
+    const a = e.target.closest('a'); if(!a) return;
+    e.preventDefault();
+    menu.classList.remove('open'); btn.classList.remove('active');
+
+    if(a.dataset.action === 'portfolio'){
+      contactCard.classList.remove('open');
+      portfolioList.style.display = 'block';
+      window.scrollTo({top: document.querySelector('.hero').offsetHeight, behavior:'smooth'});
+    }
+    if(a.dataset.action === 'contact'){
+      portfolioList.style.display = 'none';
+      contactCard.classList.add('open');
+      contactCard.scrollIntoView({behavior:'smooth'});
+    }
+  });
+
+  // klik na kategoriju → prikaži grid
+  document.querySelectorAll('.cat').forEach(cat=>{
+    cat.addEventListener('click', ()=>{
+      const targetId = cat.dataset.target;
+      document.querySelectorAll('.grid').forEach(g=>g.classList.remove('open'));
+      document.getElementById(targetId).classList.add('open');
+      document.getElementById(targetId).scrollIntoView({behavior:'smooth'});
+    });
+  });
+</script>
+</body>
+</html>
